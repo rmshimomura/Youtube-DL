@@ -5,7 +5,7 @@ def download(URLS, FORMAT, SAVE_PATH):
 
     ydl_opts = {
 
-        'format': 'flac/bestaudio/best',
+        'format': f'{FORMAT}/bestaudio/best',
         'postprocessors': [{  # Extract audio using ffmpeg
             'key': 'FFmpegExtractAudio',
             'preferredcodec': f'{FORMAT}',
