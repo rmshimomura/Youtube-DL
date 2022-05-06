@@ -1,3 +1,4 @@
+from tkinter import messagebox
 import yt_dlp
 
 def download(URLS, FORMAT, SAVE_PATH):
@@ -15,4 +16,7 @@ def download(URLS, FORMAT, SAVE_PATH):
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         error_code = ydl.download(URLS)
 
-    return 1 if error_code == 0 else -1
+    if error_code == 0:
+        messagebox.showinfo("Download", "Download terminado!")
+    else:
+        messagebox.showerror("Download", "Erro no Download!")

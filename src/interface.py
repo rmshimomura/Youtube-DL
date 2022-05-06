@@ -1,8 +1,10 @@
 from tkinter import *
 from tkinter import filedialog
+from tkinter import messagebox
 
 import requests
 from downloader import download
+from utils import return_video_name
 from tkinter.ttk import Combobox
 import os
 
@@ -17,7 +19,7 @@ class App(Tk):
         self.configure(background='#FFFFFF')
 
         self.output_path = None
-        self.urls = ['https://www.youtube.com/watch?v=47RK0qI2DiI']
+        self.urls = {}
 
         self.audio_formats = {
             '.flac': 'flac',
@@ -68,7 +70,11 @@ class App(Tk):
 
                     if requests.get(self.url.get()).status_code == 200: # Check if the url is valid
 
-                        self.urls.append(self.url.get()) # Add the url to the list
+                        video_name = return_video_name(self.url.get())
+
+                        self.urls[self.url.get()] = video_name # Add the url to the list
+
+                        messagebox.showinfo('Sucesso', f'Link para o vídeo "{video_name}" adicionado!') # Show a message to the user
 
     def render_buttons(self):
 
@@ -91,7 +97,7 @@ class App(Tk):
         self.open_output_dir.configure(background="#ff6e6c")
         
         self.execute_action = Button(self, text="Baixar músicas", command=lambda: download(
-            self.urls, self.audio_formats[self.format_selected.get()], self.output_path), height=6, width=60, borderwidth=0)
+            self.urls.keys(), self.audio_formats[self.format_selected.get()], self.output_path), height=6, width=60, borderwidth=0)
         self.execute_action.grid(
             row=2, column=0, padx=10, pady=10, sticky="nsew")
         self.execute_action.configure(background="#ff6e6c")
@@ -110,7 +116,6 @@ class App(Tk):
         self.render_buttons()
 
         self.resizable(width="false", height="false")
-
 
 if __name__ == "__main__":
     app = App()
