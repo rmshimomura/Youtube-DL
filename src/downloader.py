@@ -25,6 +25,7 @@ def download(URLS, FORMAT, SAVE_PATH):
             'preferredcodec': f'{FORMAT}',
         }],
         'outtmpl': SAVE_PATH + '/%(title)s.%(ext)s',
+        
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -32,6 +33,6 @@ def download(URLS, FORMAT, SAVE_PATH):
 
     if error_code == 0:
         messagebox.showinfo("Download", "Download terminado!")
-        URLS.clear()
+        
     else:
         messagebox.showerror("Download", "Erro no Download!")
